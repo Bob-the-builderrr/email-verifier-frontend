@@ -2,77 +2,116 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Email Verifier</title>
+  <title>✨ Email Verifier</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center fixed;
+      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
+      color: #333;
     }
 
     .container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px 40px;
+      border-radius: 20px;
       width: 90%;
       max-width: 600px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
     }
 
     textarea, input[type="file"] {
       width: 100%;
       margin: 10px 0;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 8px;
+      font-size: 16px;
     }
 
     button {
-      background-color: #4CAF50;
+      width: 100%;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
       color: white;
-      padding: 10px 20px;
+      font-weight: bold;
+      padding: 12px;
+      margin-top: 10px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #2575fc, #6a11cb);
     }
 
     .result {
       margin-top: 20px;
     }
 
-    .valid {
-      background: #d4edda;
-      padding: 10px;
+    .valid, .invalid, .unverifiable {
+      padding: 14px;
       margin-bottom: 10px;
-      border-left: 4px solid #28a745;
+      border-radius: 10px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .valid {
+      background-color: #e6ffed;
+      border-left: 6px solid #28a745;
     }
 
     .invalid {
-      background: #f8d7da;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-left: 4px solid #dc3545;
+      background-color: #ffe6e6;
+      border-left: 6px solid #dc3545;
     }
 
     .unverifiable {
-      background: #fff3cd;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-left: 4px solid #ffc107;
+      background-color: #fff7d6;
+      border-left: 6px solid #ffc107;
+    }
+
+    small {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #555;
+    }
+
+    strong {
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Email Verifier</h2>
+    <h2>✨ Magical Email Verifier</h2>
     <form id="emailForm">
-      <textarea id="emails" rows="8" placeholder="Enter one email per line..."></textarea>
+      <textarea id="emails" rows="6" placeholder="📝 Enter one email per line..."></textarea>
       <input type="file" id="csvFile" accept=".csv" />
-      <button type="submit">Verify Emails</button>
+      <button type="submit">🔍 Verify Emails</button>
     </form>
 
     <div id="result" class="result"></div>
@@ -86,7 +125,7 @@
       const textarea = document.getElementById("emails");
       const file = document.getElementById("csvFile").files[0];
       const resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = "Verifying, please wait...";
+      resultDiv.innerHTML = "⏳ Verifying, please wait...";
 
       let emails = [];
 
@@ -108,8 +147,7 @@
         resultDiv.innerHTML = '';
         data.forEach(r => {
           const div = document.createElement("div");
-          
-          // Decide the status class
+
           if (r.isValid === true) {
             div.className = "valid";
             div.innerHTML = `✅ <strong>${r.email}</strong><br>${r.errorMessage}`;
@@ -122,13 +160,13 @@
           }
 
           if (r.ipUsed) {
-            div.innerHTML += `<br><small><em>Verified using IP: ${r.ipUsed}</em></small>`;
+            div.innerHTML += `<small>Verified using IP: ${r.ipUsed}</small>`;
           }
 
           resultDiv.appendChild(div);
         });
       } catch (err) {
-        resultDiv.innerHTML = `<div class="invalid">Error: ${err.message}</div>`;
+        resultDiv.innerHTML = `<div class="invalid">❌ Error: ${err.message}</div>`;
       }
     });
   </script>
